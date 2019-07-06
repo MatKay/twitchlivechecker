@@ -1,13 +1,19 @@
 ﻿using System.Linq;
 using System.IO;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace TwitchLiveChecker
 {
+    // https://www.newtonsoft.com/json/help/html/SerializingJSON.htm
+
+    // https://api.twitch.tv/helix/streams?user_login=wubbl0rz
+    // Client-ID: bbloyjh0wzg9fdeplksluv1gs27865
+
     class ConfigManager
     {
-        private string _filecontents;
-        private TwitchConfig _config;
+        private readonly string _filecontents;
+        private readonly TwitchConfig _config;
 
         public ConfigManager()
         {
@@ -17,11 +23,16 @@ namespace TwitchLiveChecker
         }
 
         public string GetApiKey() => _config.ApiKey;
-        public string[] GetChannels() => _config.Channels;
+        public List<string> GetChannels() => _config.Channels;
 
         public void RemoveChannel(string ch)
         {
-            _config.Channels = _config.Channels.Where(val => val != ch).ToArray();
+            _config.Channels.Remove(ch);
+        }
+
+        public void AddChannel(string name)
+        {
+            _config.Channels.Add(name);
         }
 
         public void SetApiKey(string key)
@@ -32,22 +43,6 @@ namespace TwitchLiveChecker
         public void Save()
         {
             File.WriteAllText(@"config.json", JsonConvert.SerializeObject(_config));
-        }
-
-    }
-
-    class TwitchConfig
-    {
-        private string apikey;
-        private string[] channels;
-
-        public string ApiKey { get => apikey; set => apikey = value; }
-        public string[] Channels { get => channels; set => channels = value; }
-
-        public TwitchConfig(string apikey, string[] channels)
-        {
-            this.apikey = apikey;
-            this.channels = channels;
         }
     }
 }

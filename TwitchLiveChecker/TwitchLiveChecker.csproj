@@ -59,8 +59,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddChannelWindow.xaml.cs">
+      <DependentUpon>AddChannelWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConfigManager.cs" />
+    <Compile Include="TwitchChannel.cs" />
     <Compile Include="TwitchChecker.cs" />
+    <Compile Include="TwitchConfig.cs" />
+    <Page Include="AddChannelWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

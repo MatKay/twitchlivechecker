@@ -1,0 +1,15 @@
+﻿<Window x:Class="TwitchLiveChecker.AddChannelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TwitchLiveChecker"
+        mc:Ignorable="d"
+        Title="Add Channel" Height="99.953" Width="192.623" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid>
+        <Button x:Name="ChannelAddOK" Content="OK" Margin="10,0,102,10" Height="20" VerticalAlignment="Bottom" Click="ChannelAddOK_Click" IsDefault="True" IsEnabled="False"/>
+        <Button x:Name="ChannelAddCancel" Content="Cancel" Margin="102,0,10,10" Height="20" VerticalAlignment="Bottom" Click="ChannelAddCancel_Click" IsCancel="True"/>
+        <TextBox x:Name="ChannelAddTextBox" Height="20" Margin="10,10,10,0" TextWrapping="NoWrap" VerticalAlignment="Top" VerticalContentAlignment="Center" TextChanged="ChannelAddTextBox_TextChanged" />
+
+    </Grid>
+</Window>
