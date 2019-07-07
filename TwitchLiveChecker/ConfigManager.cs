@@ -40,8 +40,15 @@ namespace TwitchLiveChecker
             _config.ApiKey = key;
         }
 
+        private void SortChannels()
+        {
+            //_config.Channels;
+             _config.Channels = _config.Channels.OrderBy(a => a).ToList();
+        }
+
         public void Save()
         {
+            SortChannels();
             File.WriteAllText(@"config.json", JsonConvert.SerializeObject(_config));
         }
     }

@@ -41,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,6 +65,8 @@
     </Compile>
     <Compile Include="ConfigManager.cs" />
     <Compile Include="TwitchChannel.cs" />
+    <Compile Include="TwitchChannelRequest.cs" />
+    <Compile Include="TwitchChannelRequestData.cs" />
     <Compile Include="TwitchChecker.cs" />
     <Compile Include="TwitchConfig.cs" />
     <Page Include="AddChannelWindow.xaml">

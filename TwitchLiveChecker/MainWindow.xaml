@@ -13,10 +13,12 @@
                     <Grid Margin="0,2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="180" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="test" Grid.Column="0" Text="{Binding Name}" />
-                        <TextBlock x:Name="test2" Grid.Column="1" Text="{Binding Status}" />
+                        <TextBlock x:Name="ListBoxColumn_Name" Grid.Column="0" Text="{Binding Name}" />
+                        <TextBlock x:Name="ListBoxColumn_Status" Grid.Column="1" Text="{Binding Status}" />
+                        <TextBlock x:Name="ListBoxColumn_StreamTitle" Grid.Column="2" Text="{Binding Title}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
