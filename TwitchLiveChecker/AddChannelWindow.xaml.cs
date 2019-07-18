@@ -29,6 +29,7 @@ namespace TwitchLiveChecker
         {
             _parent = mw;
             InitializeComponent();
+            ChannelAddTextBox.Focus();
         }
 
         private void ChannelAddOK_Click(object sender, RoutedEventArgs e)

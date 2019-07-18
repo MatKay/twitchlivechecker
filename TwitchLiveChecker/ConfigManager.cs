@@ -27,7 +27,25 @@ namespace TwitchLiveChecker
 
         public void RemoveChannel(string ch)
         {
-            _config.Channels.Remove(ch);
+            string channel_delete = null;
+
+            foreach (string channel in _config.Channels)
+            {
+                if (channel.ToLower() == ch.ToLower())
+                {
+                    channel_delete = channel;
+                    break;
+                }
+            }
+
+            if (channel_delete == null)
+            {
+                throw new System.Exception();
+            }
+            else
+            {
+                _config.Channels.Remove(channel_delete);
+            }
         }
 
         public void AddChannel(string name)

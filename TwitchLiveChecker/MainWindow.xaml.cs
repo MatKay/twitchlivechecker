@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace TwitchLiveChecker
@@ -12,9 +13,20 @@ namespace TwitchLiveChecker
 
         public MainWindow()
         {
+            HandleCommandlineVars(Environment.GetCommandLineArgs());
+
             InitializeComponent();
             _cm = new ConfigManager();
             InitialFillListBox();
+        }
+
+        private void HandleCommandlineVars(string[] args)
+        {
+            if (Array.IndexOf(args, "--minimized") >= 0)
+            {
+                this.WindowState = WindowState.Minimized;
+            }
+
         }
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
@@ -22,9 +34,11 @@ namespace TwitchLiveChecker
             AddChannelWindow addwindow = new AddChannelWindow(this);
             addwindow.ShowDialog();
 
+            TwitchChecker tc = new TwitchChecker(_cm.GetApiKey());
+
             if (!string.IsNullOrEmpty(addwindow.ChannelName))
             {
-                TwitchChannel chan = new TwitchChannel(addwindow.ChannelName);
+                TwitchChannel chan = tc.CheckChannel(addwindow.ChannelName);
                 ChannelListBox.Items.Add(chan);
                 _cm.AddChannel(addwindow.ChannelName);
             }
@@ -73,6 +87,7 @@ namespace TwitchLiveChecker
             {
                 ChannelListBox.Items.Add(new TwitchChannel(channel));
             }
+            RefreshChannelStatus(true);
         }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
@@ -82,16 +97,73 @@ namespace TwitchLiveChecker
 
         private void ButtonCheckChannels_Click(object sender, RoutedEventArgs e)
         {
-            var asd = new TwitchChecker(_cm.GetApiKey());
-
-
-
-            asd.CheckChannel("mat_kay");
+            ButtonCheckChannels.IsEnabled = false;
+            RefreshChannelStatus();
+            ButtonCheckChannels.IsEnabled = true;
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void RefreshUpdateTimestamp()
+        {
+            string now = String.Format("{0:HH:mm:ss}", DateTime.Now);
+
+            LastCheckedLabel.Content = $"Last checked: {now}";
+        }
+
+        private int? GetCorrespondingListItemIndex(string chan)
+        {
+            int index = 0;
+            string channame = chan.ToLower();
+            foreach (TwitchChannel listboxitem in ChannelListBox.Items)
+            {
+                if (listboxitem.Name.ToLower() == channame)
+                {
+                    return index;
+                }
+                index++;
+            }
+            return null;
+        }
+
+        private void RefreshChannelStatus(bool notify = false)
+        {
+            TwitchChecker checker = new TwitchChecker(_cm.GetApiKey());
+
+            foreach (string item in _cm.GetChannels())
+            {
+                int? itemindex = GetCorrespondingListItemIndex(item);
+                TwitchChannel chan = checker.CheckChannel(item);
+                if (itemindex != null)
+                {
+                    ChannelListBox.Items.RemoveAt((int)itemindex);
+                    ChannelListBox.Items.Insert((int)itemindex, chan);
+                }
+                else
+                {
+                    ChannelListBox.Items.Add(chan);
+                }
+                if (chan.Status != "offline")
+                {
+                    //TwitchNotifier.Notify(chan);
+                }
+            }
+            RefreshUpdateTimestamp();
+        }
+
+        private void ChannelListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (ChannelListBox.SelectedItem != null)
+            {
+                TwitchChannel channel = (TwitchChannel)ChannelListBox.SelectedItem;
+                if (channel.Status == "live")
+                {
+                    System.Diagnostics.Process.Start($"https://twitch.tv/{channel.Name}");
+                }
+            }
         }
     }
 }

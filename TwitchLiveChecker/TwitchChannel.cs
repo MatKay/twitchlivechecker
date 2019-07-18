@@ -13,12 +13,14 @@ namespace TwitchLiveChecker
         private string _title;
         private int? _viewercount;
         private DateTime? _starttime;
+        private string _thumbnail;
 
         public string Name { get => _name; set => _name = value; }
         public string Status { get => _status; set => _status = value; }
         public string Title { get => _title; set => _title = value; }
         public int? ViewerCount { get => _viewercount; set => _viewercount = value; }
         public DateTime? StartTime { get => _starttime; set => _starttime = value; }
+        public string Thumbnail { get => _thumbnail; set => _thumbnail = value; }
 
         public TwitchChannel(string name)
         {
