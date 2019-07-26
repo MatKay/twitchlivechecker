@@ -74,6 +74,7 @@ namespace TwitchLiveChecker
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Headers.Add("Client-ID", _apikey);
+            request.Accept = "application/vnd.twitchtv.v5+json";
             var response = request.GetResponse();
 
             return new StreamReader(response.GetResponseStream()).ReadToEnd();
