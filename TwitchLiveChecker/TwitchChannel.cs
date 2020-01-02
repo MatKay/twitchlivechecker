@@ -21,6 +21,21 @@ namespace TwitchLiveChecker
         public int? ViewerCount { get => _viewercount; set => _viewercount = value; }
         public DateTime? StartTime { get => _starttime; set => _starttime = value; }
         public string Thumbnail { get => _thumbnail; set => _thumbnail = value; }
+        public string LiveString
+        {
+            get
+            {
+                if (_status == "live")
+                {
+                    TimeSpan ts = DateTime.Now.Subtract((DateTime)_starttime);
+                    return $"live for {ts.Hours}h {ts.Minutes}m";
+                }
+                else
+                {
+                    return "offline";
+                }
+            }
+        }
 
         public TwitchChannel(string name)
         {
@@ -40,6 +55,5 @@ namespace TwitchLiveChecker
         {
 
         }
-
     }
 }
