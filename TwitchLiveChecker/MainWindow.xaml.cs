@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -29,7 +30,7 @@ namespace TwitchLiveChecker
 
         }
 
-        private void ButtonAdd_Click(object sender, RoutedEventArgs e)
+        private async void ButtonAdd_ClickAsync(object sender, RoutedEventArgs e)
         {
             AddChannelWindow addwindow = new AddChannelWindow(this);
             addwindow.ShowDialog();
@@ -38,7 +39,7 @@ namespace TwitchLiveChecker
 
             if (!string.IsNullOrEmpty(addwindow.ChannelName))
             {
-                TwitchChannel chan = tc.CheckChannel(addwindow.ChannelName);
+                TwitchChannel chan = await tc.CheckChannel(addwindow.ChannelName);
                 ChannelListBox.Items.Add(chan);
                 _cm.AddChannel(addwindow.ChannelName);
             }
@@ -51,11 +52,7 @@ namespace TwitchLiveChecker
                 var item = (ChannelListBox.SelectedItem as TwitchChannel);
                 ChannelListBox.Items.Remove(item);
                 _cm.RemoveChannel(item.Name);
-                string test = item.ToString();
-                string asd = null;
             }
-
-            //var element = ChannelListBox.
 
         }
 
@@ -81,13 +78,13 @@ namespace TwitchLiveChecker
             return false;
         }
 
-        private void InitialFillListBox()
+        private async void InitialFillListBox()
         {
             foreach (string channel in _cm.GetChannels())
             {
                 ChannelListBox.Items.Add(new TwitchChannel(channel));
             }
-            RefreshChannelStatus(true);
+            await RefreshChannelStatus(true);
         }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
@@ -95,10 +92,10 @@ namespace TwitchLiveChecker
             _cm.Save();
         }
 
-        private void ButtonCheckChannels_Click(object sender, RoutedEventArgs e)
+        private async void ButtonCheckChannels_ClickAsync(object sender, RoutedEventArgs e)
         {
             ButtonCheckChannels.IsEnabled = false;
-            RefreshChannelStatus();
+            await RefreshChannelStatus();
             ButtonCheckChannels.IsEnabled = true;
         }
 
@@ -129,14 +126,14 @@ namespace TwitchLiveChecker
             return null;
         }
 
-        private void RefreshChannelStatus(bool notify = false)
+        private async Task RefreshChannelStatus(bool notify = false)
         {
             TwitchChecker checker = new TwitchChecker(_cm.GetApiKey());
 
             foreach (string item in _cm.GetChannels())
             {
                 int? itemindex = GetCorrespondingListItemIndex(item);
-                TwitchChannel chan = checker.CheckChannel(item);
+                TwitchChannel chan = await checker.CheckChannel(item);
                 if (itemindex != null)
                 {
                     ChannelListBox.Items.RemoveAt((int)itemindex);
@@ -148,7 +145,7 @@ namespace TwitchLiveChecker
                 }
                 if (chan.Status != "offline")
                 {
-                    //TwitchNotifier.Notify(chan);
+                    //todo: Notify
                 }
             }
             RefreshUpdateTimestamp();

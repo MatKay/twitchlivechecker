@@ -24,9 +24,9 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button x:Name="ButtonRemove" Content="Remove" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="75" Click="ButtonRemove_Click" IsEnabled="False"/>
-        <Button x:Name="ButtonAdd" Content="Add" Margin="10,10,0,0" Click="ButtonAdd_Click" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
+        <Button x:Name="ButtonAdd" Content="Add" Margin="10,10,0,0" Click="ButtonAdd_ClickAsync" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
         <Button x:Name="ButtonSave" Content="Save" HorizontalAlignment="Left" Margin="219,10,0,0" VerticalAlignment="Top" Width="75" Click="ButtonSave_Click"/>
-        <Button x:Name="ButtonCheckChannels" Content="Check Channels" HorizontalAlignment="Left" Margin="299,10,0,0" VerticalAlignment="Top" Width="104" Click="ButtonCheckChannels_Click"/>
+        <Button x:Name="ButtonCheckChannels" Content="Check Channels" HorizontalAlignment="Left" Margin="299,10,0,0" VerticalAlignment="Top" Width="104" Click="ButtonCheckChannels_ClickAsync"/>
         <Button x:Name="ButtonClose" Content="Close" Margin="0,10,10,0" VerticalAlignment="Top" Click="ButtonClose_Click" HorizontalAlignment="Right" Width="75"/>
         <Label x:Name="LastCheckedLabel" Content="Last checked: never" HorizontalAlignment="Left" Margin="403,7,0,0" VerticalAlignment="Top" Height="25" Width="204"/>
 

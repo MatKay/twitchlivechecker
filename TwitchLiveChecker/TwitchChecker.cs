@@ -3,21 +3,22 @@ using System;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 
 namespace TwitchLiveChecker
 {
     class TwitchChecker
     {
-        private string _apikey;
+        private readonly string _apikey;
 
         public TwitchChecker(string key)
         {
             _apikey = key;
         }
 
-        public TwitchChannel CheckChannel(string channel)
+        public async Task<TwitchChannel> CheckChannel(string channel)
         {
-            var response = GetWebResponse(channel);
+            string response = await GetWebResponse(channel);
 
             TwitchChannelRequest test = JsonConvert.DeserializeObject<TwitchChannelRequest>(response);
 
@@ -65,19 +66,23 @@ namespace TwitchLiveChecker
                 channelObject.ViewerCount = null;
                 channelObject.StartTime = null;
             }
-            return channelObject;
+            return await Task.FromResult<TwitchChannel>(channelObject);
         }
 
-        private string GetWebResponse(string channel)
+        private async Task<string> GetWebResponse(string channel)
         {
             string url = $"https://api.twitch.tv/helix/streams?user_login={channel}";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Headers.Add("Client-ID", _apikey);
             request.Accept = "application/vnd.twitchtv.v5+json";
-            var response = request.GetResponse();
+            var response = await request.GetResponseAsync();
 
-            return new StreamReader(response.GetResponseStream()).ReadToEnd();
+            var sr = new StreamReader(response.GetResponseStream());
+
+            string webResponse = sr.ReadToEnd();
+
+            return await Task.FromResult<String>(webResponse);
         }
 
     }
