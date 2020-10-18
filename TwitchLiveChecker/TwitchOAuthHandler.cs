@@ -63,7 +63,7 @@ namespace TwitchLiveChecker
 
         public static TwitchOAuthToken RefreshOAuthToken()
         {
-            // TODO
+            return new TwitchOAuthToken();
         }
     }
 }

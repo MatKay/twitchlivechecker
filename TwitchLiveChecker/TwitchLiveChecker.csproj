@@ -229,8 +229,8 @@
     <Compile Include="TwitchChannelRequestData.cs" />
     <Compile Include="TwitchChecker.cs" />
     <Compile Include="TwitchConfig.cs" />
-    <Compile Include="TwitchNotifier.cs" />
     <Compile Include="TwitchOAuthHandler.cs" />
+    <Compile Include="TwitchOAuthToken.cs" />
     <Page Include="AddChannelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
