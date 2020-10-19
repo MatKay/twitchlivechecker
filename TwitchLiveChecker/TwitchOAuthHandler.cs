@@ -5,31 +5,38 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using TwitchConfig;
 
 namespace TwitchLiveChecker
 {
     class TwitchOAuthHandler
     {
+        // https://dev.twitch.tv/docs/authentication/getting-tokens-oauth
 
-        public static TwitchOAuthToken NewOAuthToken()
+        public static Config NewOAuthToken()
         {
-            string auth_url = "https://id.twitch.tv/oauth2/authorize";
-            string challenge_url = "https://id.twitch.tv/oauth2/token";
-            string clientid = "bbloyjh0wzg9fdeplksluv1gs27865";
-            string clientsecret = "su3io0qf1bhant8tdxuyxaes5qlxfe";
-            string redirect_uri = "http://localhost:58214";
+            Config config = Config.GetConfig();
             string scope = "user:read:email";
 
             HttpListener listener = new HttpListener();
-            listener.Prefixes.Add($"{redirect_uri}/");
+            listener.Prefixes.Add($"{SystemConfig.Environment["redirect_uri"]}/");
             listener.Start();
 
-            var httpclient = new RestClient($"{auth_url}?client_id={clientid}&redirect_uri={redirect_uri}&response_type=code&scope={scope}");
+            var httpclient = new RestClient(SystemConfig.Twitch["loginurl"]);
             httpclient.FollowRedirects = false;
 
             var request = new RestRequest(Method.GET);
+            request.AddParameter("client_id", SystemConfig.Application["clientid"]);
+            request.AddParameter("redirect_uri", SystemConfig.Environment["redirect_uri"]);
+            request.AddParameter("response_type", "code");
+            request.AddParameter("scope", scope);
+
+
             IRestResponse response = httpclient.Execute(request);
 
             string location = response.Headers.ToList().Find(x => x.Name == "Location").Value.ToString();
@@ -39,31 +46,79 @@ namespace TwitchLiveChecker
             HttpListenerContext context = listener.GetContext();
             HttpListenerRequest callback = context.Request;
 
-            string oauth_code = callback.QueryString.Get("code");
-
+            string oauth_challenge = callback.QueryString.Get("code");
 
             HttpListenerResponse callback_answer = context.Response;
             string responseString = "<HTML><BODY><h1>Success!</h1>You can close this page now!</BODY></HTML>";
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
             callback_answer.ContentLength64 = buffer.Length;
             System.IO.Stream output = callback_answer.OutputStream;
             output.Write(buffer, 0, buffer.Length);
             output.Close();
             listener.Stop();
 
-            // https://id.twitch.tv/oauth2/token?client_id=bbloyjh0wzg9fdeplksluv1gs27865&client_secret=su3io0qf1bhant8tdxuyxaes5qlxfeazujnyqcn6nbc6mfe9jtw0sxfi12xg&redirect_uri=58214
-            httpclient = new RestClient($"{challenge_url}?client_id={clientid}&client_secret={clientsecret}&code={oauth_code}&grant_type=authorization_code&redirect_uri={redirect_uri}");
+            httpclient = new RestClient(SystemConfig.Twitch["tokenurl"]);
             httpclient.FollowRedirects = false;
 
             request = new RestRequest(Method.POST);
+            request.AddParameter("client_id", SystemConfig.Application["clientid"]);
+            request.AddParameter("client_secret", SystemConfig.Application["clientsecret"]);
+            request.AddParameter("code", oauth_challenge);
+            request.AddParameter("grant_type", "authorization_code");
+            request.AddParameter("redirect_uri", SystemConfig.Environment["redirect_uri"]);
+
             response = httpclient.Execute(request);
 
-            return JsonConvert.DeserializeObject<TwitchOAuthToken>(response.Content);
+            TwitchOAuthToken oauth_token = JsonConvert.DeserializeObject<TwitchOAuthToken>(response.Content);
+
+            config.oauth["authtoken"] = oauth_token.access_token;
+            config.oauth["refreshtoken"] = oauth_token.refresh_token;
+
+            config.Save();
+
+            return config;
+
+
         }
 
-        public static TwitchOAuthToken RefreshOAuthToken()
+        public static Config RefreshOAuthToken()
         {
-            return new TwitchOAuthToken();
+            Config config = Config.GetConfig();
+            RestClient client = new RestClient(SystemConfig.Twitch["tokenurl"]);
+
+            RestRequest request = new RestRequest(Method.POST);
+            request.AddParameter("client_id", SystemConfig.Application["clientid"]);
+            request.AddParameter("client_secret", SystemConfig.Application["clientsecret"]);
+            request.AddParameter("grant_type", "refresh_token");
+            request.AddParameter("refresh_token", config.oauth["refreshtoken"]);
+
+            IRestResponse response = client.Execute(request);
+            TwitchOAuthToken token = JsonConvert.DeserializeObject<TwitchOAuthToken>(response.Content);
+
+            config.oauth["authtoken"] = token.access_token;
+            config.oauth["refreshtoken"] = token.refresh_token;
+
+            config.Save();
+
+            return config;
+        }
+
+        public static void RevokeOAuthToken()
+        {
+            Config config = Config.GetConfig();
+            RestClient client = new RestClient(SystemConfig.Twitch["revocationurl"]);
+
+
+            RestRequest request = new RestRequest(Method.POST);
+            request.AddParameter("client_id", SystemConfig.Application["clientid"]);
+            request.AddParameter("token", config.oauth["authtoken"]);
+
+            IRestResponse response = client.Execute(request);
+
+            config.oauth["authtoken"] = "";
+            config.oauth["refreshtoken"] = "";
+
+            config.Save();
         }
     }
 }
