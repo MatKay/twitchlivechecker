@@ -223,6 +223,8 @@
     <Compile Include="AddChannelWindow.xaml.cs">
       <DependentUpon>AddChannelWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="classes\Config.cs" />
+    <Compile Include="classes\SystemConfig.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="TwitchChannel.cs" />
     <Compile Include="TwitchChannelRequest.cs" />

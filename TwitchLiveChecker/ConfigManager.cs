@@ -12,18 +12,18 @@ namespace TwitchLiveChecker
 
     class ConfigManager
     {
-        private readonly string _filecontents;
-        private readonly TwitchConfig _config;
+        //private readonly string _filecontents;
+        // readonly TwitchConfig _config;
 
-        public ConfigManager()
-        {
-            _filecontents = File.ReadAllText(@"config.json");
+        //public ConfigManager()
+        //{
+            //_filecontents = File.ReadAllText(@"config.json");
 
-            _config = JsonConvert.DeserializeObject<TwitchConfig>(_filecontents);
-        }
+            //_config = JsonConvert.DeserializeObject<TwitchConfig>(_filecontents);
+        //}
 
-        public string GetApiKey() => _config.ApiKey;
-        public List<string> GetChannels() => _config.Channels;
+        //public string GetApiKey() => _config.ApiKey;
+        //public List<string> GetChannels() => _config.Channels;
 
         public void RemoveChannel(string ch)
         {
