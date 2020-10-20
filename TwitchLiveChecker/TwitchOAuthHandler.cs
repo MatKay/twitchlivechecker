@@ -120,5 +120,22 @@ namespace TwitchLiveChecker
 
             config.Save();
         }
+
+        public static string GetOAuthToken()
+        {
+            Config config = Config.GetConfig();
+
+            if (String.IsNullOrWhiteSpace(config.oauth["authtoken"]))
+            {
+                config = NewOAuthToken();
+                config.Save();
+
+                return config.oauth["authtoken"];
+            }
+            else
+            {
+                return config.oauth["authtoken"];
+            }
+        }
     }
 }
