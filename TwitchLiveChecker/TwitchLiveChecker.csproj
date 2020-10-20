@@ -224,6 +224,9 @@
       <DependentUpon>AddChannelWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SystemConfig.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="TwitchChannel.cs" />
@@ -233,6 +236,10 @@
     <Compile Include="TwitchOAuthHandler.cs" />
     <Compile Include="TwitchOAuthToken.cs" />
     <Page Include="AddChannelWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
