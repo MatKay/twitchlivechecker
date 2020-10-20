@@ -84,7 +84,7 @@ namespace TwitchLiveChecker
             {
                 ChannelListBox.Items.Add(new TwitchChannel(channel));
             }
-            await RefreshChannelStatus(true);
+            //await RefreshChannelStatus(true);
         }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)

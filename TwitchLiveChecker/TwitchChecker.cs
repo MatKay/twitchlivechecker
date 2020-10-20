@@ -9,13 +9,6 @@ namespace TwitchLiveChecker
 {
     class TwitchChecker
     {
-        private readonly string _apikey;
-
-        public TwitchChecker(string key)
-        {
-            _apikey = key;
-        }
-
         public async Task<TwitchChannel> CheckChannel(string channel)
         {
             string response = await GetWebResponse(channel);
