@@ -228,7 +228,6 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\SystemConfig.cs" />
-    <Compile Include="ConfigManager.cs" />
     <Compile Include="Classes\TwitchChannel.cs" />
     <Compile Include="Classes\TwitchChannelRequest.cs" />
     <Compile Include="Classes\TwitchChannelRequestData.cs" />

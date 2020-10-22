@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using TwitchConfig;
 
 namespace TwitchLiveChecker
 {
@@ -10,14 +11,11 @@ namespace TwitchLiveChecker
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ConfigManager _cm;
-
         public MainWindow()
         {
             HandleCommandlineVars(Environment.GetCommandLineArgs());
 
             InitializeComponent();
-            _cm = new ConfigManager();
             InitialFillListBox();
         }
 
@@ -49,9 +47,10 @@ namespace TwitchLiveChecker
         {
             if (ChannelListBox.SelectedItem != null)
             {
-                var item = (ChannelListBox.SelectedItem as TwitchChannel);
+                Config config = Config.GetConfig();
+                TwitchChannel item = (ChannelListBox.SelectedItem as TwitchChannel);
                 ChannelListBox.Items.Remove(item);
-                _cm.RemoveChannel(item.Name);
+                config.RemoveChannel(item.Name);
             }
 
         }
@@ -111,13 +110,13 @@ namespace TwitchLiveChecker
             LastCheckedLabel.Content = $"Last checked: {now}";
         }
 
-        private int? GetCorrespondingListItemIndex(string chan)
+        private int? GetCorrespondingListItemIndex(string channel)
         {
             int index = 0;
-            string channame = chan.ToLower();
+            string chanelname = channel.ToLower();
             foreach (TwitchChannel listboxitem in ChannelListBox.Items)
             {
-                if (listboxitem.Name.ToLower() == channame)
+                if (listboxitem.Name.ToLower() == channelname)
                 {
                     return index;
                 }
