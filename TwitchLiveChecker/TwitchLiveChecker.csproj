@@ -220,30 +220,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddChannelWindow.xaml.cs">
+    <Compile Include="Windows\AddChannelWindow.xaml.cs">
       <DependentUpon>AddChannelWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Config.cs" />
-    <Compile Include="LoginWindow.xaml.cs">
+    <Compile Include="Classes\Config.cs" />
+    <Compile Include="Windows\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SystemConfig.cs" />
+    <Compile Include="Classes\SystemConfig.cs" />
     <Compile Include="ConfigManager.cs" />
-    <Compile Include="TwitchChannel.cs" />
-    <Compile Include="TwitchChannelRequest.cs" />
-    <Compile Include="TwitchChannelRequestData.cs" />
+    <Compile Include="Classes\TwitchChannel.cs" />
+    <Compile Include="Classes\TwitchChannelRequest.cs" />
+    <Compile Include="Classes\TwitchChannelRequestData.cs" />
     <Compile Include="TwitchChecker.cs" />
     <Compile Include="TwitchOAuthHandler.cs" />
-    <Compile Include="TwitchOAuthToken.cs" />
-    <Page Include="AddChannelWindow.xaml">
+    <Compile Include="Classes\TwitchOAuthToken.cs" />
+    <Page Include="Windows\AddChannelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginWindow.xaml">
+    <Page Include="Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -251,7 +251,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
