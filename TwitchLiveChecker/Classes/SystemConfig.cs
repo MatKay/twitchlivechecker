@@ -23,9 +23,10 @@ namespace TwitchConfig
 
         public static Dictionary<string, string> Twitch = new Dictionary<string, string>
         {
-            { "loginurl",       "https://id.twitch.tv/oauth2/authorize" },
-            { "tokenurl",       "https://id.twitch.tv/oauth2/token" },
-            { "revocationurl",  "https://id.twitch.tv/oauth2/revoke" }
+            { "oauth_loginurl",       "https://id.twitch.tv/oauth2/authorize" },
+            { "oauth_tokenurl",       "https://id.twitch.tv/oauth2/token" },
+            { "oauth_revocationurl",  "https://id.twitch.tv/oauth2/revoke" },
+            { "api_channelurl", "https://api.twitch.tv/helix/streams" }
         };
     }
 }

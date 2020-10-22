@@ -27,7 +27,7 @@ namespace TwitchLiveChecker
             listener.Prefixes.Add($"{SystemConfig.Environment["redirect_uri"]}/");
             listener.Start();
 
-            var httpclient = new RestClient(SystemConfig.Twitch["loginurl"]);
+            var httpclient = new RestClient(SystemConfig.Twitch["oauth_loginurl"]);
             httpclient.FollowRedirects = false;
 
             var request = new RestRequest(Method.GET);
@@ -57,7 +57,7 @@ namespace TwitchLiveChecker
             output.Close();
             listener.Stop();
 
-            httpclient = new RestClient(SystemConfig.Twitch["tokenurl"]);
+            httpclient = new RestClient(SystemConfig.Twitch["oauth_tokenurl"]);
             httpclient.FollowRedirects = false;
 
             request = new RestRequest(Method.POST);
@@ -84,7 +84,14 @@ namespace TwitchLiveChecker
         public static Config RefreshOAuthToken()
         {
             Config config = Config.GetConfig();
-            RestClient client = new RestClient(SystemConfig.Twitch["tokenurl"]);
+
+            if (string.IsNullOrWhiteSpace(config.oauth["authtoken"]) || string.IsNullOrWhiteSpace(config.oauth["refreshtoken"]))
+            {
+                return NewOAuthToken();
+               
+            }
+
+            RestClient client = new RestClient(SystemConfig.Twitch["oauth_tokenurl"]);
 
             RestRequest request = new RestRequest(Method.POST);
             request.AddParameter("client_id", SystemConfig.Application["clientid"]);
@@ -106,7 +113,7 @@ namespace TwitchLiveChecker
         public static void RevokeOAuthToken()
         {
             Config config = Config.GetConfig();
-            RestClient client = new RestClient(SystemConfig.Twitch["revocationurl"]);
+            RestClient client = new RestClient(SystemConfig.Twitch["oauth_revocationurl"]);
 
 
             RestRequest request = new RestRequest(Method.POST);
