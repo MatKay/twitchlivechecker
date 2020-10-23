@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,16 +31,21 @@ namespace TwitchLiveChecker
 
         private async void ButtonAdd_ClickAsync(object sender, RoutedEventArgs e)
         {
+            Config config = Config.GetConfig();
+            TwitchAPI apiclient = new TwitchAPI();
+
             AddChannelWindow addwindow = new AddChannelWindow(this);
             addwindow.ShowDialog();
 
-            TwitchChecker tc = new TwitchChecker(_cm.GetApiKey());
+            string channelname = addwindow.ChannelName.ToLower();
+
 
             if (!string.IsNullOrEmpty(addwindow.ChannelName))
             {
-                TwitchChannel chan = await tc.CheckChannel(addwindow.ChannelName);
-                ChannelListBox.Items.Add(chan);
-                _cm.AddChannel(addwindow.ChannelName);
+                List<TwitchChannel> channels = await apiclient.GetChannelsAsync(new string[] { channelname });
+                ChannelListBox.Items.Add(channels[0]);
+                config.AddChannel(channelname);
+                config.Save();
             }
         }
 
