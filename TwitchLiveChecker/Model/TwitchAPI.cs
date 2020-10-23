@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace TwitchLiveChecker
 {
     class TwitchAPI
     {
-        public async Task<TwitchChannel[]> GetLivestatusAsync(string[] channels)
+        public async Task<List<TwitchChannel>> GetChannelsAsync(string[] channels)
         {
             if (channels.Length >= 100)
             {
@@ -39,14 +40,20 @@ namespace TwitchLiveChecker
                 retryrequest.AddHeader("client-id", SystemConfig.Application["clientid"]);
                 retryrequest.AddHeader("Authorization", $"Bearer {config.oauth["authtoken"]}");
 
-
                 httpresponse = await httpclient.ExecuteAsync(request);
-
             }
             
             if (httpresponse.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                // TODO
+                TwitchAPIChannelResponse apiresponse = JsonConvert.DeserializeObject<TwitchAPIChannelResponse>(httpresponse.Content);
+
+                TwitchChannel[] channelarray = apiresponse.data;
+
+                return new List<TwitchChannel>(channelarray);
+            }
+            else
+            {
+                return new List<TwitchChannel>();
             }
         }
     }
