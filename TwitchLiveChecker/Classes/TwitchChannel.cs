@@ -8,26 +8,33 @@ namespace TwitchLiveChecker
 {
     class TwitchChannel
     {
-        private string _name;
-        private string _status;
-        private string _title;
-        private int? _viewercount;
-        private DateTime? _starttime;
-        private string _thumbnail;
+        public string id { get; set; }
+        public string user_id { get; set; }
+        public string user_name { get; set; }
+        public string game_id { get; set; }
+        public string type { get; set; }
+        public string title { get; set; }
+        public int viewer_count { get; set; }
+        public string started_at { get; set; }
+        public string language { get; set; }
+        public string thumbnail_url { get; set; }
+        public string[] tag_ids { get; set; }
 
-        public string Name { get => _name; set => _name = value; }
-        public string Status { get => _status; set => _status = value; }
-        public string Title { get => _title; set => _title = value; }
-        public int? ViewerCount { get => _viewercount; set => _viewercount = value; }
-        public DateTime? StartTime { get => _starttime; set => _starttime = value; }
-        public string Thumbnail { get => _thumbnail; set => _thumbnail = value; }
+        public DateTime StartTime
+        {
+            get
+            {
+                return DateTime.Parse(started_at);
+            }
+        }
+
         public string LiveString
         {
             get
             {
-                if (_status == "live")
+                if (type == "live")
                 {
-                    TimeSpan ts = DateTime.Now.Subtract((DateTime)_starttime);
+                    TimeSpan ts = DateTime.Now.Subtract(StartTime);
                     return $"live for {ts.Hours}h {ts.Minutes}m";
                 }
                 else
@@ -37,18 +44,18 @@ namespace TwitchLiveChecker
             }
         }
 
-        public TwitchChannel(string name)
+        public TwitchChannel(string username)
         {
-            _name = name;
-            _status = "unknown";
-            _title = null;
+            user_name = username;
+            type = "unknown";
+            title = "";
         }
 
-        public TwitchChannel(string name, string status)
+        public TwitchChannel(string username, string status)
         {
-            _name = name;
-            _status = status;
-            _title = null;
+            user_name = username;
+            type = status;
+            type = "";
         }
 
         public TwitchChannel()

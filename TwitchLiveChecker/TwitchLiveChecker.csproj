@@ -230,8 +230,7 @@
     </Compile>
     <Compile Include="Classes\SystemConfig.cs" />
     <Compile Include="Classes\TwitchChannel.cs" />
-    <Compile Include="Classes\TwitchChannelRequest.cs" />
-    <Compile Include="Classes\TwitchChannelRequestData.cs" />
+    <Compile Include="Classes\TwitchAPIChannelResponse.cs" />
     <Compile Include="TwitchChecker.cs" />
     <Compile Include="TwitchOAuthHandler.cs" />
     <Compile Include="Classes\TwitchOAuthToken.cs" />
