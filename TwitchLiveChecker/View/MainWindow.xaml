@@ -16,9 +16,9 @@
                             <ColumnDefinition Width="100" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="ListBoxColumn_Name" Grid.Column="0" Text="{Binding Name}" />
+                        <TextBlock x:Name="ListBoxColumn_Name" Grid.Column="0" Text="{Binding user_name}" />
                         <TextBlock x:Name="ListBoxColumn_Status" Grid.Column="1" Text="{Binding LiveString}" />
-                        <TextBlock x:Name="ListBoxColumn_StreamTitle" Grid.Column="2" Text="{Binding Title}" />
+                        <TextBlock x:Name="ListBoxColumn_StreamTitle" Grid.Column="2" Text="{Binding title}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

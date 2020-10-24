@@ -221,11 +221,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\TwitchAPI.cs" />
-    <Compile Include="Windows\AddChannelWindow.xaml.cs">
+    <Compile Include="View\AddChannelWindow.xaml.cs">
       <DependentUpon>AddChannelWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Config.cs" />
-    <Compile Include="Windows\LoginWindow.xaml.cs">
+    <Compile Include="View\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\SystemConfig.cs" />
@@ -233,15 +233,15 @@
     <Compile Include="Classes\TwitchAPIChannelResponse.cs" />
     <Compile Include="TwitchOAuthHandler.cs" />
     <Compile Include="Classes\TwitchOAuthToken.cs" />
-    <Page Include="Windows\AddChannelWindow.xaml">
+    <Page Include="View\AddChannelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\LoginWindow.xaml">
+    <Page Include="View\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -249,7 +249,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Windows\MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
