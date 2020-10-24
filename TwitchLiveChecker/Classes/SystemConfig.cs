@@ -11,8 +11,8 @@ namespace TwitchConfig
     {
         public static Dictionary<string, string> Application = new Dictionary<string, string>
         {
-            { "clientid", "asdsad" },
-            { "clientsecret", "asdsadasd" }
+            { "clientid", "drx70rx00ev71cq1jax7i4ji3ywib0" },
+            { "clientsecret", "enrlbcqa312829q3e39q0z67kqgz9x" }
         };
 
         public static Dictionary<string, string> Environment = new Dictionary<string, string>

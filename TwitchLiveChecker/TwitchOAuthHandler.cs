@@ -39,6 +39,11 @@ namespace TwitchLiveChecker
 
             IRestResponse response = httpclient.Execute(request);
 
+            if (response.StatusCode != HttpStatusCode.Found)
+            {
+                throw new Exception();
+            }
+
             string location = response.Headers.ToList().Find(x => x.Name == "Location").Value.ToString();
 
             Process.Start(new ProcessStartInfo { FileName = location, UseShellExecute = true });
