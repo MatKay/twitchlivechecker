@@ -138,8 +138,7 @@ namespace TwitchLiveChecker
             string channelname = channel.ToLower();
             foreach (TwitchChannel listboxitem in ChannelListBox.Items)
             {
-                //exception? why
-
+                
                 if (listboxitem.user_name.ToLower() == channelname)
                 {
                     return index;
@@ -161,7 +160,7 @@ namespace TwitchLiveChecker
             {
                 if (channels.Any(ch => ch.user_name.ToLower() == item))
                 {
-                    TwitchChannel updatedchannel = channels.Find(ch => ch.user_name == item);
+                    TwitchChannel updatedchannel = channels.Find(ch => ch.user_name.ToLower() == item);
                     int? itemindex = GetCorrespondingListItemIndex(item);
                     if (itemindex != null)
                     {

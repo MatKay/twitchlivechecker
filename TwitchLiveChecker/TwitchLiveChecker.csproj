@@ -54,6 +54,28 @@
   <PropertyGroup>
     <ApplicationIcon>tw.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Toolkit.Uwp.Notifications, Version=5.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Toolkit.Uwp.Notifications.5.1.1\lib\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.dll</HintPath>
@@ -231,7 +253,7 @@
     <Compile Include="Classes\SystemConfig.cs" />
     <Compile Include="Classes\TwitchChannel.cs" />
     <Compile Include="Classes\TwitchAPIChannelResponse.cs" />
-    <Compile Include="TwitchOAuthHandler.cs" />
+    <Compile Include="Model\TwitchOAuthHandler.cs" />
     <Compile Include="Classes\TwitchOAuthToken.cs" />
     <Page Include="View\AddChannelWindow.xaml">
       <SubType>Designer</SubType>
@@ -292,9 +314,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="tw.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TwitchChannelsApiResponse.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />

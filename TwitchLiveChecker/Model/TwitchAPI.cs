@@ -30,7 +30,9 @@ namespace TwitchLiveChecker
             foreach (string channel in channels)
             {
                 request.AddParameter("user_login", channel);
+                retryrequest.AddParameter("user_login", channel);
             }
+            
 
             IRestResponse httpresponse = await httpclient.ExecuteAsync(request);
 
@@ -40,7 +42,7 @@ namespace TwitchLiveChecker
                 retryrequest.AddHeader("client-id", SystemConfig.Application["clientid"]);
                 retryrequest.AddHeader("Authorization", $"Bearer {config.oauth["authtoken"]}");
 
-                httpresponse = await httpclient.ExecuteAsync(request);
+                httpresponse = await httpclient.ExecuteAsync(retryrequest);
             }
             
             if (httpresponse.StatusCode == System.Net.HttpStatusCode.OK)
