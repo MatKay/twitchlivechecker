@@ -3,6 +3,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -57,6 +58,43 @@ namespace TwitchLiveChecker
             {
                 return new List<TwitchChannel>();
             }
+        }
+
+        public async Task<string> GetLoggedinUserAsync()
+        {
+            Config config = Config.GetConfig();
+            RestClient httpclient = new RestClient(SystemConfig.Twitch["api_userurl"]);
+            RestRequest request = new RestRequest(Method.GET);
+
+            request.AddHeader("Client-ID", SystemConfig.Application["clientid"]);
+            request.AddHeader("Authorization", $"Bearer {config.oauth["authtoken"]}");
+
+            IRestResponse response = await httpclient.ExecuteAsync(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                TwitchUserResponse responseobj = JsonConvert.DeserializeObject<TwitchUserResponse>(response.Content);
+                return responseobj.data.First().display_name;
+            }
+            else
+            {
+                RestRequest retryrequest = new RestRequest(Method.GET);
+                retryrequest.AddHeader("Client-ID", SystemConfig.Application["clientid"]);
+
+                config = TwitchOAuthHandler.RefreshOAuthToken();
+                retryrequest.AddHeader("Authorization", $"Bearer {config.oauth["authtoken"]}");
+                IRestResponse retryresponse = await httpclient.ExecuteAsync(retryrequest);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    TwitchUserResponse responseobj = JsonConvert.DeserializeObject<TwitchUserResponse>(response.Content);
+                    return responseobj.data.First().display_name;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+
         }
     }
 }

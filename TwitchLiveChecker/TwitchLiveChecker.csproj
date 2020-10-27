@@ -242,6 +242,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\TwitchUser.cs" />
     <Compile Include="Model\TwitchAPI.cs" />
     <Compile Include="View\AddChannelWindow.xaml.cs">
       <DependentUpon>AddChannelWindow.xaml</DependentUpon>

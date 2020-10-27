@@ -188,6 +188,7 @@ namespace TwitchLiveChecker
                 }
             }
             RefreshUpdateTimestamp();
+            SetLoggedInUserAsync(apiclient);
         }
 
         private void ChannelListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -199,6 +200,16 @@ namespace TwitchLiveChecker
                 {
                     System.Diagnostics.Process.Start($"https://twitch.tv/{channel.user_name}");
                 }
+            }
+        }
+
+        private async Task SetLoggedInUserAsync(TwitchAPI apiclient)
+        {
+            string username = await apiclient.GetLoggedinUserAsync();
+            if(!string.IsNullOrWhiteSpace(username))
+            {
+                this.LoggedinUserLabel.Text = username;
+                this.TwitchImage.Opacity = 100;
             }
         }
     }
