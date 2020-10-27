@@ -19,28 +19,28 @@ namespace TwitchLiveChecker
     /// </summary>
     public partial class AddChannelWindow : Window
     {
-        private string _channelname;
+        private string channelname;
 
-        public string ChannelName { get => _channelname;}
+        public string ChannelName { get => channelname;}
 
-        private MainWindow _parent;
+        private MainWindow parent;
 
         public AddChannelWindow(MainWindow mw)
         {
-            _parent = mw;
+            parent = mw;
             InitializeComponent();
             ChannelAddTextBox.Focus();
         }
 
         private void ChannelAddOK_Click(object sender, RoutedEventArgs e)
         {
-            _channelname = ChannelAddTextBox.Text;
+            channelname = ChannelAddTextBox.Text;
             this.Close();
         }
 
         private void ChannelAddCancel_Click(object sender, RoutedEventArgs e)
         {
-            _channelname = null;
+            channelname = null;
             this.Close();
         }
 
@@ -48,7 +48,7 @@ namespace TwitchLiveChecker
         {
             if ( String.IsNullOrEmpty(ChannelAddTextBox.Text) 
                  || String.IsNullOrWhiteSpace(ChannelAddTextBox.Text) 
-                 || _parent.CheckIfChannelInListbox(ChannelAddTextBox.Text)
+                 || parent.CheckIfChannelInListbox(ChannelAddTextBox.Text)
                )
             {
                 ChannelAddOK.IsEnabled = false;
